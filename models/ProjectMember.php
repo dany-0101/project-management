@@ -6,6 +6,7 @@ use PDOException;
 
 class ProjectMember {
     private $conn;
+
     private $table = 'project_users';
     private $invitationsTable = 'project_invitations';
     public function __construct($db) {
@@ -46,44 +47,18 @@ class ProjectMember {
         }
     }
 
-/*    public function getProjectMembers($projectId) {
-        $query = "SELECT u.id, u.name, u.email, 
-              CASE WHEN pu.user_id IS NOT NULL THEN 'member' ELSE 'invited' END AS status
-              FROM (
-                  SELECT user_id, 'member' as type FROM " . $this->table . " WHERE project_id = :project_id
-                  UNION
-                  SELECT email, 'invited' as type FROM " . $this->invitationsTable . " WHERE project_id = :project_id AND status = 'pending'
-              ) as members
-              LEFT JOIN users u ON members.user_id = u.id OR members.user_id = u.email
-              LEFT JOIN " . $this->table . " pu ON u.id = pu.user_id AND pu.project_id = :project_id";
-        try {
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':project_id', $projectId);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log("Error getting project members: " . $e->getMessage());
-            return false;
-        }
-    }*/
 
-    public function getMemberProjects($userId) {
-        $query = "SELECT p.*, COUNT(b.id) as board_count 
-              FROM projects p 
-              JOIN " . $this->table . " pm ON p.id = pm.project_id 
-              LEFT JOIN boards b ON p.id = b.project_id 
-              WHERE pm.user_id = :user_id 
-              GROUP BY p.id";
+    public function getProjectMembers($projectId) {
+        $query = "SELECT u.id, u.name, u.email 
+              FROM users u 
+              JOIN " . $this->table . " pm ON u.id = pm.user_id 
+              WHERE pm.project_id = :project_id";
 
-        try {
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':user_id', $userId);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log("Error getting member projects: " . $e->getMessage());
-            return [];
-        }
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':project_id', $projectId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getInvitationByToken($token) {
         $query = "SELECT * FROM " . $this->invitationsTable . " WHERE token = :token LIMIT 1";
@@ -154,6 +129,35 @@ class ProjectMember {
         } catch (PDOException $e) {
             error_log("Error fetching invited projects: " . $e->getMessage());
             return [];
+        }
+    }
+    public function getAcceptedProjects($userId) {
+        $query = "SELECT p.id, p.title 
+              FROM projects p 
+              JOIN " . $this->table . " pm ON p.id = pm.project_id 
+              WHERE pm.user_id = :user_id";
+
+        try {
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error fetching accepted projects: " . $e->getMessage());
+            return [];
+        }
+    }
+    public function removeUserFromProject($userId, $projectId) {
+        $sql = "DELETE FROM " . $this->table . " WHERE user_id = :user_id AND project_id = :project_id";
+        try {
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->bindParam(':project_id', $projectId, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Error removing user from project: " . $e->getMessage());
+            return false;
         }
     }
 }

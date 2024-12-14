@@ -8,21 +8,6 @@
             Invite User
         </button>
 
-        <!-- Project Members List -->
-        <?php if (!empty($members)): ?>
-            <ul class="list-group">
-                <?php foreach ($members as $member): ?>
-                    <li class="list-group-item">
-                        <?= htmlspecialchars($member['name']) ?>
-                        <span class="text-muted">(<?= htmlspecialchars($member['email']) ?>)</span>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-            <p>No members in this project yet.</p>
-        <?php endif; ?>
-    </div>
-</div>
 
 <!-- Invite User Modal -->
 <div class="modal fade" id="inviteUserModal" tabindex="-1" aria-labelledby="inviteUserModalLabel" aria-hidden="true">
@@ -46,5 +31,43 @@
                 </div>
             </form>
         </div>
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="mb-0">Project Members</h5>
+    </div>
+
+
+
+
+
+            <!-- Project Members List -->
+            <ul class="list-group">
+                <?php if (isset($creator)): ?>
+                    <li class="list-group-item">
+                        <?= htmlspecialchars($creator['name']) ?>
+                        <span class="text-muted">(<?= htmlspecialchars($creator['email']) ?>)</span>
+                        <span class="badge bg-primary">Creator</span>
+                    </li>
+                <?php endif; ?>
+
+                <?php if (!empty($members)): ?>
+                    <?php foreach ($members as $member): ?>
+                        <?php if ($member['id'] != $creator['id']): ?>
+                            <li class="list-group-item">
+                                <?= htmlspecialchars($member['name']) ?>
+                                <span class="text-muted">(<?= htmlspecialchars($member['email']) ?>)</span>
+                            </li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </ul>
+
+            <?php if (empty($members) && !isset($creator)): ?>
+                <p>No members in this project yet.</p>
+            <?php endif; ?>
+        </div>
+    </div>
     </div>
 </div>
