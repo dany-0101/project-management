@@ -33,30 +33,39 @@
 
 
         <!-- Project List -->
+        <h2 class="mb-3">Your Projects</h2>
         <div class="row">
-            <?php foreach ($projects as $project): ?>
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($project['title']) ?></h5>
-                            <a href="<?php echo BASE_URL . '/projects/view/' . $project['id']; ?>" class="btn btn-primary">View Project</a>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#renameProjectModal<?= $project['id'] ?>">
-                                Rename
-                            </button>
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteProjectModal<?= $project['id'] ?>">
-                                Delete
-                            </button>
+            <?php if (empty($allProjects)): ?>
+                <div class="col-12">
+                    <p>You don't have any projects yet. Create a new project or accept an invitation to get started.</p>
+                </div>
+            <?php else: ?>
+                <?php foreach ($allProjects as $project): ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <h5 class="card-title"><?= htmlspecialchars($project['title']) ?></h5>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton<?= $project['id'] ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= $project['id'] ?>">
+                                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#renameProjectModal<?= $project['id'] ?>">Rename</a></li>
+                                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteProjectModal<?= $project['id'] ?>">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <a href="<?php echo BASE_URL . '/projects/view/' . $project['id']; ?>" class="btn btn-primary mt-2">View Project</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
 
-
-
-
         <!-- Modals -->
-        <?php foreach ($projects as $project): ?>
+        <?php foreach ($allProjects as $project): ?>
             <!-- Rename Project Modal -->
             <div class="modal fade" id="renameProjectModal<?= $project['id'] ?>" tabindex="-1" aria-labelledby="renameProjectModalLabel<?= $project['id'] ?>" aria-hidden="true">
                 <div class="modal-dialog">

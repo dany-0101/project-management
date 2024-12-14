@@ -46,7 +46,7 @@ class ProjectMember {
         }
     }
 
-    public function getProjectMembers($projectId) {
+/*    public function getProjectMembers($projectId) {
         $query = "SELECT u.id, u.name, u.email, 
               CASE WHEN pu.user_id IS NOT NULL THEN 'member' ELSE 'invited' END AS status
               FROM (
@@ -64,6 +64,25 @@ class ProjectMember {
         } catch (PDOException $e) {
             error_log("Error getting project members: " . $e->getMessage());
             return false;
+        }
+    }*/
+
+    public function getMemberProjects($userId) {
+        $query = "SELECT p.*, COUNT(b.id) as board_count 
+              FROM projects p 
+              JOIN " . $this->table . " pm ON p.id = pm.project_id 
+              LEFT JOIN boards b ON p.id = b.project_id 
+              WHERE pm.user_id = :user_id 
+              GROUP BY p.id";
+
+        try {
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':user_id', $userId);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error getting member projects: " . $e->getMessage());
+            return [];
         }
     }
     public function getInvitationByToken($token) {

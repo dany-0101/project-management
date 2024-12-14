@@ -104,14 +104,20 @@ class ProjectController {
 
 
     public function delete($projectId) {
+        error_log("Attempting to delete project $projectId");
         $result = $this->project->delete($projectId);
         if ($result) {
             $_SESSION['success'] = "Project deleted successfully.";
+            error_log("Project $projectId deleted successfully");
         } else {
-            $_SESSION['error'] = "Error deleting project. Please try again.";
+            $error = $this->project->getLastError();
+            if (empty($error)) {
+                $error = "Unknown error occurred";
+            }
+            $_SESSION['error'] = "Error deleting project: " . $error;
+            error_log("Error deleting project $projectId: $error");
         }
         header('Location: ' . BASE_URL . '/dashboard');
         exit;
     }
-
 }

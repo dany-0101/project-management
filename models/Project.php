@@ -92,25 +92,42 @@ public function getAll() {
     }
 
     public function delete($projectId) {
-        $query = "DELETE FROM " . $this->table . " WHERE id = :id AND user_id = :user_id";
+        $this->conn->beginTransaction();
+
         try {
-            $stmt = $this->conn->prepare($query);
+            // First, delete associated project_users entries
+            $deleteProjectUsersQuery = "DELETE FROM project_users WHERE project_id = :project_id";
+            $stmt = $this->conn->prepare($deleteProjectUsersQuery);
+            $stmt->bindParam(':project_id', $projectId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            // Next, delete associated tasks
+            $deleteTasksQuery = "DELETE FROM tasks WHERE project_id = :project_id";
+            $stmt = $this->conn->prepare($deleteTasksQuery);
+            $stmt->bindParam(':project_id', $projectId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            // Then, delete the project
+            $deleteProjectQuery = "DELETE FROM " . $this->table . " WHERE id = :id AND user_id = :user_id";
+            $stmt = $this->conn->prepare($deleteProjectQuery);
             $stmt->bindParam(':id', $projectId, PDO::PARAM_INT);
             $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
 
-            return $stmt->execute();
+            $result = $stmt->execute();
+
+            if ($result && $stmt->rowCount() > 0) {
+                $this->conn->commit();
+                return true;
+            } else {
+                $this->conn->rollBack();
+                $this->lastError = "No project found with the given ID or you don't have permission to delete it.";
+                return false;
+            }
         } catch (PDOException $e) {
-            error_log("Exception when deleting project: " . $e->getMessage());
+            $this->conn->rollBack();
+            $this->lastError = "Database error occurred while deleting the project: " . $e->getMessage();
+            error_log("Error in Project delete: " . $e->getMessage());
             return false;
         }
     }
-    public function getById($id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
-    }
-
 }
