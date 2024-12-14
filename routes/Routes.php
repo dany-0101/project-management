@@ -100,7 +100,7 @@ class Routes {
         $dashboard = new DashboardController($this->db);
         $status = new StatusController($this->db);
         $task = new TaskController($this->db);
-       $projectMember = new ProjectMemberController($this->db);
+        $projectMember = new ProjectMemberController($this->db);
         // Define routes
         $this->router->get('/', function() {
             require __DIR__ . '/../views/welcome.php';
@@ -191,9 +191,11 @@ class Routes {
             $projectMember->showInvitedProjects();
         }, AuthMiddleware::class);
 
-        $this->router->post('/projects/leave/{id}', function($params) use ($projectMember) {
-            $projectMember->leaveProject($params['id']);
+        // Add this line with your other routes
+        $this->router->post('/projects/leave', function() use ($project) {
+            $project->leave();
         }, AuthMiddleware::class);
+
         $this->router->set404(function() {
             http_response_code(404);
             echo "404 Not Found";

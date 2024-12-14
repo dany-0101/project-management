@@ -32,17 +32,29 @@ class Project {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-public function getAll() {
-    try {
-        $query = "SELECT * FROM " . $this->table;
+    public function getProjectCreator($projectId) {
+        $query = "SELECT u.id, u.name, u.email 
+              FROM users u 
+              JOIN projects p ON u.id = p.user_id 
+              WHERE p.id = :project_id";
+
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':project_id', $projectId, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch(PDOException $e) {
-        error_log("Error in Project getAll: " . $e->getMessage());
-        return false;
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-}
+    public function getAll() {
+        try {
+            $query = "SELECT * FROM " . $this->table;
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch(PDOException $e) {
+            error_log("Error in Project getAll: " . $e->getMessage());
+            return false;
+        }
+    }
     public function getProjectById($id) {
         $query = "SELECT * FROM " . $this->table . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);

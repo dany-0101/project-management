@@ -27,7 +27,10 @@ class ProjectController {
 
     public function view($id) {
         $project = $this->project->getProjectById($id);
-
+        // Fetch project members
+        $projectMemberController = new ProjectMemberController($this->db);
+        $creator = $this->project->getProjectCreator($id);
+        $members = $projectMemberController->getProjectMembers($id);
         if (!$project) {
             $_SESSION['error'] = "Project not found.";
             header('Location: ' . BASE_URL . '/dashboard');
@@ -119,5 +122,23 @@ class ProjectController {
         }
         header('Location: ' . BASE_URL . '/dashboard');
         exit;
+    }
+    public function leave() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['project_id'])) {
+            $projectId = $_POST['project_id'];
+            $userId = $_SESSION['user_id'];
+
+            $projectMember = new \Models\ProjectMember($this->db);
+            if ($projectMember->removeUserFromProject($userId, $projectId)) {
+                $_SESSION['success'] = "You have successfully left the project.";
+            } else {
+                $_SESSION['error'] = "Failed to leave the project. Please try again.";
+            }
+        } else {
+            $_SESSION['error'] = "Invalid request.";
+        }
+
+        header("Location: " . BASE_URL . "/dashboard");
+        exit();
     }
 }

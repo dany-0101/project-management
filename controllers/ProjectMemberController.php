@@ -46,7 +46,9 @@ class ProjectMemberController {
         header('Location: ' . BASE_URL . '/projects/view/' . $projectId);
         exit;
     }
-
+    public function getProjectMembers($projectId) {
+        return $this->projectMember->getProjectMembers($projectId);
+    }
 
     public function showInvitedProjects() {
         if (!isset($_SESSION['user_id'])) {
@@ -162,7 +164,5 @@ class ProjectMemberController {
 
         return $body;
     }
-    public function getProjectMembers($projectId) {
-        return $this->projectMember->getProjectMembers($projectId);
-    }
+
 }
