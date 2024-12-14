@@ -1,0 +1,22 @@
+{
+  "config": {
+    "process-timeout": 0,
+    "verbose": true,
+    "disable-tls": true
+  },
+
+  "autoload": {
+    "psr-4": {
+      "Controllers\\": "controllers/",
+      "Models\\": "models/",
+      "Middleware\\": "middleware/",
+      "Routes\\": "routes/",
+      "Config\\": "config/"
+    }
+  },
+  "require": {
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "phpmailer/phpmailer": "^v6.6.0"
+  }
+}
