@@ -29,16 +29,12 @@ class AuthController {
         $this->user->password = password_hash($data['password'], PASSWORD_DEFAULT);
 
         if($this->user->create()) {
-            $_SESSION['user_id'] = $this->user->id;
-            $_SESSION['user_name'] = $this->user->name;
-            $_SESSION['success'] = "Registration successful. Welcome, " . $this->user->name . "!";
-
-            // Redirect to dashboard
-            header('Location: /project-management/public/dashboard');
+            $_SESSION['success'] = "Registration successful. Please log in with your new account.";
+            header('Location: ' . BASE_URL . '/auth/login');
             exit();
         } else {
             $_SESSION['error'] = "Registration failed. Please try again.";
-            header('Location: /project-management/public/auth/register');
+            header('Location: ' . BASE_URL . '/auth/register');
             exit();
         }
     }

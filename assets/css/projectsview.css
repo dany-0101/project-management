@@ -1,0 +1,13 @@
+.status-column {
+    min-height: 100px;
+}
+.status-column.drag-over {
+    border: 2px dashed #007bff;
+}
+
+.task-card {
+    cursor: move;
+}
+.drag-over {
+    border: 2px dashed #007bff;
+}

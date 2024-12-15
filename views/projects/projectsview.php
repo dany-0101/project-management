@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project View</title>
+    <link href="/project-management/assets/css/projectsview.css" rel="stylesheet">
+</head>
+<body>
+
 <?php include __DIR__ . '/../layouts/header.php'; ?>
 <?php
 if (isset($_SESSION['success'])) {
@@ -12,22 +22,7 @@ if (isset($_SESSION['error'])) {
     <!-- Include the project members section -->
 <?php include __DIR__ . '/project_members.php'; ?>
 
-    <style>
-        .status-column {
-            min-height: 100px;
-        }
-        .status-column.drag-over {
-            border: 2px dashed #007bff;
-        }
 
-         .task-card {
-             cursor: move;
-         }
-        .drag-over {
-            border: 2px dashed #007bff;
-        }
-
-    </style>
     <div class="container-fluid mt-4">
         <h1><?php echo htmlspecialchars($project['title']); ?></h1>
 
@@ -255,7 +250,7 @@ if (isset($_SESSION['error'])) {
                         const newStatusId = evt.to.closest('.card').querySelector('input[name="status_id"]').value;
                         const newPosition = Array.from(evt.to.children).indexOf(evt.item);
 
-                        // Send the update to the server
+
                         fetch('<?php echo BASE_URL; ?>/tasks/updateStatus', {
                             method: 'POST',
                             headers: {
@@ -273,16 +268,17 @@ if (isset($_SESSION['error'])) {
                                     console.log('Task updated successfully');
                                 } else {
                                     console.error('Failed to update task');
-                                    // Optionally, revert the UI change here
+
                                 }
                             })
                             .catch((error) => {
                                 console.error('Error:', error);
-                                // Optionally, revert the UI change here
+
                             });
                     }
                 });
             });
         });
     </script>
-<?php
+</body>
+</html>

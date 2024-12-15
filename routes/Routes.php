@@ -3,6 +3,7 @@
 namespace Routes;
 
 use Controllers\AuthController;
+use Controllers\PasswordResetController;
 use Controllers\ProfileController;
 use Controllers\ProjectController;
 use Controllers\BoardController;
@@ -104,6 +105,7 @@ class Routes {
         $task = new TaskController($this->db);
         $projectMember = new ProjectMemberController($this->db);
         $profile = new ProfileController($this->db);
+        $passwordReset = new PasswordResetController($this->db);
         // Define routes
         $this->router->get('/', function() {
             require __DIR__ . '/../views/welcome.php';
@@ -217,6 +219,20 @@ class Routes {
         $this->router->post('/projects/cancel-invitation', function() use ($projectMember) {
             $projectMember->cancelInvitation();
         }, AuthMiddleware::class);
+
+        $this->router->get('/auth/forgot-password', function() use ($passwordReset) {
+            $passwordReset->forgotPassword();
+        });
+        $this->router->post('/auth/send-reset-link', function() use ($passwordReset) {
+            $passwordReset->sendResetLink();
+        });
+        $this->router->get('/auth/reset-password/{token}', function($params) use ($passwordReset) {
+            $passwordReset->resetPassword($params['token']);
+        });
+        $this->router->post('/auth/reset-password/{token}', function($params) use ($passwordReset) {
+            $passwordReset->resetPassword($params['token']);
+        });
+
         $this->router->set404(function() {
             http_response_code(404);
             echo "404 Not Found";
