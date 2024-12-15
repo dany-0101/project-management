@@ -54,8 +54,86 @@ class ProjectMemberController {
         header('Location: ' . BASE_URL . '/projects/view/' . $projectId);
         exit;
     }
+
+
+
     public function getProjectMembers($projectId) {
-        return $this->projectMember->getProjectMembers($projectId);
+        $members = $this->projectMember->getProjectMembers($projectId);
+        $creator = $this->projectMember->getProjectCreator($projectId);
+        $invitations = $this->projectMember->getPendingInvitations($projectId);
+
+        // Combine all results
+        $allMembers = array_merge([$creator], $members, $invitations);
+
+        // Format the result
+        return array_map(function($member) {
+            return [
+                'id' => $member['id'],
+                'name' => $member['name'] ?? 'Pending',
+                'email' => $member['email'],
+                'status' => $member['status'],
+                'is_creator' => $member['status'] === 'creator',
+            ];
+        }, $allMembers);
+    }
+
+    public function removeMember() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $projectId = $data['project_id'];
+            $memberId = $data['member_id'];
+
+            // Check if the current user has permission to remove members
+            if (!$this->userCanManageProject($projectId)) {
+                echo json_encode(['success' => false, 'message' => 'You do not have permission to remove members from this project.']);
+                return;
+            }
+
+            if ($this->projectMember->removeUserFromProject($memberId, $projectId)) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to remove member from the project.']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
+        }
+    }
+    public function cancelInvitation() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+            return;
+        }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+        $projectId = $data['project_id'] ?? null;
+        $memberId = $data['member_id'] ?? null;
+
+        if (!$projectId || !$memberId) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Missing required data']);
+            return;
+        }
+
+        // Add logging
+        error_log("Attempting to cancel invitation for project $projectId and member $memberId");
+
+        $result = $this->projectMember->cancelInvitation($projectId, $memberId);
+
+        if ($result) {
+            echo json_encode(['success' => true]);
+        } else {
+            error_log("Failed to cancel invitation for project $projectId and member $memberId");
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to cancel invitation']);
+        }
+    }
+    private function userCanManageProject($projectId) {
+        // Implement your logic to check if the current user has permission to manage the project
+        // For example, check if the user is the project owner or has admin rights
+        // Return true if the user can manage, false otherwise
+        // This is a placeholder implementation
+        return true;
     }
 
     public function showInvitedProjects() {

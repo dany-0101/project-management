@@ -1,31 +1,45 @@
 <div class="card mb-3">
-
     <div class="card-body">
         <!-- Invite User Button -->
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#inviteUserModal">
             Invite User
         </button>
         <!-- Project Members List -->
-
-            <?php if (isset($creator)): ?>
-                <li class="list-unstyled">
-                    <?= htmlspecialchars($creator['name']) ?>
-                    <span class="text-muted">(<?= htmlspecialchars($creator['email']) ?>)</span>
-                    <span class="badge bg-primary">Creator</span>
-                </li>
-            <?php endif; ?>
-
-            <?php if (!empty($members)): ?>
-                <?php foreach ($members as $member): ?>
-                    <?php if ($member['id'] != $creator['id']): ?>
-                        <li class="list-unstyled">
-                            <?= htmlspecialchars($member['name']) ?>
-                            <span class="text-muted">(<?= htmlspecialchars($member['email']) ?>)</span>
+        <div class="mb-3">
+            <h5>The team</h5>
+            <?php if (empty($members)): ?>
+                <p>No members in this project yet.</p>
+            <?php else: ?>
+                <ul class="list-unstyled">
+                    <?php foreach ($members as $member): ?>
+                        <li class="d-flex align-items-center mb-2">
+                            <div class="me-2">
+                                <?php
+                                $displayName = htmlspecialchars($member['name'] ?? 'Pending');
+                                $email = htmlspecialchars($member['email']);
+                                echo "{$displayName} ({$email})";
+                                ?>
+                            </div>
+                            <?php if ($member['is_creator']): ?>
+                                <span class="badge bg-primary me-2">Creator</span>
+                            <?php endif; ?>
+                            <?php if ($member['status'] === 'pending'): ?>
+                                <span class="badge bg-warning me-2">Pending</span>
+                            <?php endif; ?>
+                            <?php if (!$member['is_creator'] && $member['id'] !== $_SESSION['user_id']): ?>
+                                <button class="btn btn-danger btn-sm remove-member"
+                                        data-member-id="<?php echo $member['id']; ?>"
+                                        data-member-status="<?php echo $member['status']; ?>">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            <?php endif; ?>
                         </li>
-                    <?php endif; ?>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </ul>
             <?php endif; ?>
-
+        </div>
+    </div>
+</div>
 
 <!-- Invite User Modal -->
 <div class="modal fade" id="inviteUserModal" tabindex="-1" aria-labelledby="inviteUserModalLabel" aria-hidden="true">
@@ -56,5 +70,52 @@
                 <p>No members in this project yet.</p>
             <?php endif; ?>
 
-    </div>
-    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/js/all.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const removeButtons = document.querySelectorAll('.remove-member');
+        removeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const memberId = this.getAttribute('data-member-id');
+                const memberStatus = this.getAttribute('data-member-status');
+                const action = memberStatus === 'pending' ? 'cancel the invitation for' : 'remove';
+                if (confirm(`Are you sure you want to ${action} this member from the project?`)) {
+                    removeMember(memberId, memberStatus);
+                }
+            });
+        });
+
+        function removeMember(memberId, memberStatus) {
+            const endpoint = memberStatus === 'pending' ? '/projects/cancel-invitation' : '/projects/remove-member';
+            fetch('<?php echo BASE_URL; ?>' + endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    project_id: <?php echo $project['id']; ?>,
+                    member_id: memberId
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        console.error('Server responded with an error:', data.message);
+                        alert('Failed to remove member or cancel invitation. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        }
+    });
+</script>
