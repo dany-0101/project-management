@@ -196,6 +196,9 @@ class Routes {
             $project->leave();
         }, AuthMiddleware::class);
 
+        $this->router->post('/projects/reject-invitation', function() use ($projectMember) {
+            $projectMember->rejectInvitation();
+        }, AuthMiddleware::class);
         $this->router->set404(function() {
             http_response_code(404);
             echo "404 Not Found";

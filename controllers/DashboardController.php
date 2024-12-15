@@ -20,6 +20,12 @@ class DashboardController {
             header('Location: ' . BASE_URL . '/auth/login');
             exit;
         }
+        $data['success'] = isset($_SESSION['success']) ? $_SESSION['success'] : null;
+        $data['error'] = isset($_SESSION['error']) ? $_SESSION['error'] : null;
+
+        // Clear the session messages after passing them to the view
+        unset($_SESSION['success']);
+        unset($_SESSION['error']);
 
         $userId = $_SESSION['user_id'];
         $userEmail = $_SESSION['user_email'];

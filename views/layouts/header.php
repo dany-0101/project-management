@@ -25,20 +25,23 @@ $basePath = '/project-management/public';
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav me-auto">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo $basePath; ?>/dashboard">Dashboard</a>
                     </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo $basePath; ?>/tasks">Tasks</a>
-                    </li>
-
+                <?php endif; ?>
+            </ul>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <span class="navbar-text mx-auto">
+                    Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?>
+                </span>
+            <?php endif; ?>
+            <ul class="navbar-nav ms-auto">
+                <?php if (isset($_SESSION['user_id'])): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo $basePath; ?>/auth/logout">Logout</a>
                     </li>
-
                 <?php else: ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo $basePath; ?>/auth/login">Login</a>
