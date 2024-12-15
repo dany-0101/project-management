@@ -39,7 +39,7 @@ class ProjectController {
 
         $board = $this->board->getByProjectId($id);
         if (!$board) {
-            // If no board exists, create one
+
             $boardData = [
                 'title' => $project['title'] . ' Board',
                 'project_id' => $id
@@ -58,7 +58,7 @@ class ProjectController {
     public function create($data) {
         error_log("Create method called in ProjectController with data: " . json_encode($data));
 
-        // Validate input data
+
         if (empty($data['name'])) {
             $_SESSION['error'] = "Invalid project data. Please provide a project name.";
             error_log("Invalid project data: " . json_encode($data));
@@ -66,10 +66,9 @@ class ProjectController {
             exit;
         }
 
-        // Prepare project data
         $projectData = [
             'title' => $data['name'],
-            'user_id' => $_SESSION['user_id'] ?? null // Ensure you have user_id in session
+            'user_id' => $_SESSION['user_id'] ?? null
         ];
 
         error_log("Attempting to create project with data: " . json_encode($projectData));
@@ -89,7 +88,7 @@ class ProjectController {
     }
 
     public function update($projectId, $title) {
-        // Ensure we're passing an array to the update method
+
         $data = [
             'project_id' => $projectId,
             'title' => $title

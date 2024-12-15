@@ -2,7 +2,6 @@
 namespace Models;
 
 use PDO;
-use PDOException;
 class User {
     private $conn;
     private $db;

@@ -132,24 +132,4 @@ class Task {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getTasksByStatus($status) {
-        $query = "SELECT * FROM " . $this->table . " WHERE status = :status ORDER BY created_at";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':status', $status);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    public function getByProjectId($project_id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE project_id = :project_id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':project_id', $project_id, \PDO::PARAM_INT);
-
-        try {
-            $stmt->execute();
-            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
-            error_log("Error fetching tasks by project ID: " . $e->getMessage());
-            return false;
-        }
-    }
 }

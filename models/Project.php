@@ -5,14 +5,12 @@ use PDO;
 use PDOException;
 
 class Project {
-    private $db;
     private $conn;
     private $table = 'projects';
 
     public $id;
     public $title;
     public $user_id;
-    public $created_at;
 
     public function __construct($db) {
         $this->conn = $db;
@@ -44,17 +42,7 @@ class Project {
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function getAll() {
-        try {
-            $query = "SELECT * FROM " . $this->table;
-            $stmt = $this->conn->prepare($query);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch(PDOException $e) {
-            error_log("Error in Project getAll: " . $e->getMessage());
-            return false;
-        }
-    }
+
     public function getProjectById($id) {
         $query = "SELECT * FROM " . $this->table . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
@@ -107,19 +95,19 @@ class Project {
         $this->conn->beginTransaction();
 
         try {
-            // First, delete associated project_users entries
+
             $deleteProjectUsersQuery = "DELETE FROM project_users WHERE project_id = :project_id";
             $stmt = $this->conn->prepare($deleteProjectUsersQuery);
             $stmt->bindParam(':project_id', $projectId, PDO::PARAM_INT);
             $stmt->execute();
 
-            // Next, delete associated tasks
+
             $deleteTasksQuery = "DELETE FROM tasks WHERE project_id = :project_id";
             $stmt = $this->conn->prepare($deleteTasksQuery);
             $stmt->bindParam(':project_id', $projectId, PDO::PARAM_INT);
             $stmt->execute();
 
-            // Then, delete the project
+
             $deleteProjectQuery = "DELETE FROM " . $this->table . " WHERE id = :id AND user_id = :user_id";
             $stmt = $this->conn->prepare($deleteProjectQuery);
             $stmt->bindParam(':id', $projectId, PDO::PARAM_INT);

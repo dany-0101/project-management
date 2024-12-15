@@ -46,7 +46,7 @@ class AuthController {
             $_SESSION['user_name'] = $result['name'];
             $_SESSION['user_email'] = $result['email'];
 
-            // Fetch the user's photo from the database
+
             $userPhoto = $this->user->getUserPhoto($result['id']);
             $_SESSION['user_photo'] = $userPhoto ? $userPhoto : null;
 
@@ -59,7 +59,6 @@ class AuthController {
             exit();
         }
     }
-
 
     public function logout() {
         session_start();

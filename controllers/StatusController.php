@@ -1,9 +1,6 @@
 <?php
 namespace Controllers;
 
-
-
-
 use Models\Board;
 use Models\Status;
 
@@ -33,12 +30,11 @@ class StatusController {
             $_SESSION['error'] = "Invalid data provided.";
         }
 
-        // Get the project ID associated with the board
         $board = $this->board->getById($boardId);
         $projectId = $board['project_id'] ?? null;
 
         if ($projectId) {
-            // Redirect back to the project view
+
             header('Location: ' . BASE_URL . '/projects/view/' . $projectId);
         }
         exit();
@@ -48,7 +44,7 @@ class StatusController {
             $status_id = $_POST['status_id'];
             $board_id = $_POST['board_id'];
 
-            // Get the project_id associated with this board
+
             $board = $this->board->getById($board_id);
             $project_id = $board['project_id'];
 
@@ -58,7 +54,7 @@ class StatusController {
                 $_SESSION['error'] = "Failed to delete status and associated tasks.";
             }
 
-            // Redirect back to the project view page
+
             header("Location: " . BASE_URL . "/projects/view/" . $project_id);
             exit();
         }

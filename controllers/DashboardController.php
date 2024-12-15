@@ -23,20 +23,20 @@ class DashboardController {
         $data['success'] = isset($_SESSION['success']) ? $_SESSION['success'] : null;
         $data['error'] = isset($_SESSION['error']) ? $_SESSION['error'] : null;
 
-        // Clear the session messages after passing them to the view
+
         unset($_SESSION['success']);
         unset($_SESSION['error']);
 
         $userId = $_SESSION['user_id'];
         $userEmail = $_SESSION['user_email'];
 
-        // Fetch user's own projects
+
         $projects = $this->project->getUserProjects($userId);
 
-        // Fetch invited projects (pending invitations)
+
         $invitedProjects = $this->projectMember->getInvitedProjects($userEmail);
 
-        // Fetch accepted projects (where the user is a member)
+
         $acceptedProjects = $this->projectMember->getAcceptedProjects($userId);
 
 

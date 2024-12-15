@@ -98,13 +98,13 @@ class ProjectMember {
         $this->conn->beginTransaction();
 
         try {
-            // Update invitation status
+
             $query = "UPDATE " . $this->invitationsTable . " SET status = 'accepted' WHERE id = :id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':id', $invitationId);
             $stmt->execute();
 
-            // Get project_id from invitation
+
             $query = "SELECT project_id FROM " . $this->invitationsTable . " WHERE id = :id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':id', $invitationId);
@@ -115,7 +115,7 @@ class ProjectMember {
                 throw new \Exception("Invitation not found");
             }
 
-            // Check if user is already a member of the project
+
             $query = "SELECT * FROM " . $this->table . " WHERE project_id = :project_id AND user_id = :user_id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':project_id', $invitation['project_id']);
@@ -123,7 +123,7 @@ class ProjectMember {
             $stmt->execute();
 
             if ($stmt->rowCount() == 0) {
-                // Add user to project only if they're not already a member
+
                 $query = "INSERT INTO " . $this->table . " (project_id, user_id) VALUES (:project_id, :user_id)";
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindParam(':project_id', $invitation['project_id']);

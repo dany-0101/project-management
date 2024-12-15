@@ -27,7 +27,7 @@ class ProfileController {
 
             $photoPath = null;
 
-            // Handle file upload
+
             if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
                 $uploadDir = 'uploads/profile_photos/';
                 if (!file_exists($uploadDir)) {
@@ -45,11 +45,11 @@ class ProfileController {
                 }
             }
 
-            // Update user information
+
             $result = $this->profileModel->update($data, $photoPath);
 
             if ($result) {
-                // Update session data
+
                 $_SESSION['user_name'] = $name;
                 $_SESSION['user_email'] = $email;
                 if ($photoPath) {

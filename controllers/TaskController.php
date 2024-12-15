@@ -21,7 +21,7 @@ class TaskController
 
         $this->task->title = $data['title'];
         $this->task->description = $data['description'];
-        $this->task->status_id = $data['status_id'];  // Changed from status to status_id
+        $this->task->status_id = $data['status_id'];
         $this->task->board_id = $data['board_id'];
         $this->task->priority = $data['priority'];
         $this->task->due_date = $data['due_date'];
@@ -86,22 +86,22 @@ class TaskController
                 exit;
             }
 
-            // Start a transaction
+
             $this->db->beginTransaction();
 
             try {
-                // Delete all tasks associated with this status
+
                 if (!$this->task->deleteByStatusId($status_id)) {
                     throw new \Exception("Failed to delete tasks associated with the status.");
                 }
 
-                // Delete the status
+
                 $status = new \Models\Status($this->db);
                 if (!$status->delete($status_id)) {
                     throw new \Exception("Failed to delete status.");
                 }
 
-                // Fetch the project_id associated with the board_id
+
                 $board = new \Models\Board($this->db);
                 $project_id = $board->getProjectIdByBoardId($board_id);
 
@@ -112,7 +112,7 @@ class TaskController
                 $this->db->commit();
                 $_SESSION['success'] = "Status and associated tasks deleted successfully.";
 
-                // Redirect back to the project view using project_id
+
                 header("Location: " . BASE_URL . "/projects/view/" . $project_id);
                 exit;
             } catch (\Exception $e) {

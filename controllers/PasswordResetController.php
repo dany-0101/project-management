@@ -16,7 +16,7 @@ class PasswordResetController {
     }
 
     public function forgotPassword() {
-        // Display the forgot password form
+
         require_once __DIR__ . '/../views/auth/forgot_password.php';
     }
 
@@ -74,7 +74,7 @@ class PasswordResetController {
             exit;
         }
 
-        // Display the reset password form
+
         require_once __DIR__ . '/../views/auth/reset_password.php';
     }
 
@@ -82,7 +82,7 @@ class PasswordResetController {
         $mail = new PHPMailer(true);
 
         try {
-            // Server settings
+
             $mail->isSMTP();
             $mail->Host       = 'smtp.mailtrap.io';
             $mail->SMTPAuth   = true;
@@ -91,11 +91,11 @@ class PasswordResetController {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 2525;
 
-            // Recipients
+
             $mail->setFrom('from@example.com', 'Project Management System');
             $mail->addAddress($email);
 
-            // Content
+
             $mail->isHTML(true);
             $mail->Subject = 'Password Reset Request';
             $resetLink = BASE_URL . '/auth/reset-password/' . $token;

@@ -9,7 +9,7 @@ session_start();
 require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/Database.php';
 require_once __DIR__ . '/../routes/Routes.php';
-// Add this line near the top of the file, after including the Composer autoloader
+
 require_once __DIR__ . '/../vendor/phpmailer/src/Exception.php';
 require_once __DIR__ . '/../vendor/phpmailer/src/PHPMailer.php';
 require_once __DIR__ . '/../vendor/phpmailer/src/SMTP.php';
@@ -20,7 +20,7 @@ use Routes\Router;
 use Routes\Routes;
 
 
-// Initialize database connection
+
 $database = new Database();
 $db = $database->connect();
 

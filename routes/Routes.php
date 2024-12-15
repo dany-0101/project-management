@@ -16,12 +16,7 @@ use Middleware\AuthMiddleware;
 
 
 class Router {
-    public function debug() {
-        echo "<pre>";
-        print_r($this->routes);
-        echo "</pre>";
-        echo "Current path: " . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    }
+
     private $routes = [];
     private $notFoundCallback;
 
@@ -96,7 +91,7 @@ class Routes {
     }
 
     private function defineRoutes() {
-        // Initialize controllers
+
         $auth = new AuthController($this->db);
         $project = new ProjectController($this->db);
         $board = new BoardController($this->db);
@@ -106,7 +101,8 @@ class Routes {
         $projectMember = new ProjectMemberController($this->db);
         $profile = new ProfileController($this->db);
         $passwordReset = new PasswordResetController($this->db);
-        // Define routes
+
+
         $this->router->get('/', function() {
             require __DIR__ . '/../views/welcome.php';
         });
@@ -165,9 +161,6 @@ class Routes {
             $task->delete($_POST['task_id']);
         }, AuthMiddleware::class);
 
-        $this->router->get('/tasks/view/{id}', function($params) use ($task) {
-            $task->view($params['id']);
-        }, AuthMiddleware::class);
 
         $this->router->post('/statuses/create', function() use ($status) {
             $status->create($_POST);
@@ -196,7 +189,7 @@ class Routes {
             $projectMember->showInvitedProjects();
         }, AuthMiddleware::class);
 
-        // Add this line with your other routes
+
         $this->router->post('/projects/leave', function() use ($project) {
             $project->leave();
         }, AuthMiddleware::class);
@@ -205,9 +198,7 @@ class Routes {
             $projectMember->rejectInvitation();
         }, AuthMiddleware::class);
 
-        $this->router->get('/profile', function() use ($profile) {
-            $profile->index();
-        }, AuthMiddleware::class);
+
 
         $this->router->post('/profile/update', function() use ($profile) {
             $profile->update();

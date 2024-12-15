@@ -10,13 +10,11 @@ class Board {
     public $title;
     public $user_id;
     public $project_id;
-    public $created_at;
-    public $updated_at;
+
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    // Add the missing methods
     public function getById($id) {
         $query = "SELECT * FROM boards WHERE id = :id";
         $stmt = $this->conn->prepare($query);
@@ -66,11 +64,11 @@ class Board {
 
         $stmt = $this->conn->prepare($query);
 
-        // Clean data
+
         $title = htmlspecialchars(strip_tags($data['title']));
         $project_id = htmlspecialchars(strip_tags($data['project_id']));
 
-        // Bind data
+
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':project_id', $project_id);
 
@@ -82,7 +80,4 @@ class Board {
 
         return false;
     }
-
-
-
 }

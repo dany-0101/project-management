@@ -9,11 +9,7 @@ class Profile {
         $this->db = $db;
     }
 
-    public function getUserProfile($userId) {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = ?");
-        $stmt->execute([$userId]);
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
-    }
+
 
     public function update($data, $photo = null) {
         $sql = "UPDATE users SET name = ?, email = ?";
