@@ -81,4 +81,12 @@ class User {
         }
         return false;
     }
+    public function updatePassword($userId, $newPassword) {
+        $sql = "UPDATE users SET password = :password WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            ':password' => $newPassword,
+            ':id' => $userId
+        ]);
+    }
 }

@@ -1,14 +1,24 @@
-<?php
-
-include __DIR__ . '/../layouts/header.php';
-?>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<?php include __DIR__ . '/../layouts/header.php'; ?>
+<body>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">Register</div>
                     <div class="card-body">
+                        <?php
+                        if (isset($_SESSION['error'])) {
+                            echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
+                            unset($_SESSION['error']);
+                        }
+                        ?>
                         <form action="<?php echo BASE_URL; ?>/auth/register" method="POST">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
@@ -38,3 +48,5 @@ include __DIR__ . '/../layouts/header.php';
     </div>
 
 <?php include __DIR__ . '/../layouts/footer.php'; ?>
+</body>
+</html>

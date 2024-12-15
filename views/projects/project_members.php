@@ -1,6 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
 <div class="card mb-3">
     <div class="card-body">
-        <!-- Invite User Button -->
+
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#inviteUserModal">
             Invite User
         </button>
@@ -119,3 +127,6 @@
         }
     });
 </script>
+
+</body>
+</html>

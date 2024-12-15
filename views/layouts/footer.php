@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+
 <body class="d-flex flex-column min-vh-100">
 <div class="wrapper flex-grow-1">
 
@@ -6,17 +14,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <h5>Project Management System</h5>
+                <h5>Easy plan</h5>
                 <p class="text-muted">Organize your tasks efficiently</p>
             </div>
-            <div class="col-md-4">
-                <h5>Quick Links</h5>
-                <ul class="list-unstyled">
-                    <li><a href="<?= BASE_URL ?>/boards">Boards</a></li>
-                    <li><a href="<?= BASE_URL ?>/tasks">Tasks</a></li>
-                    <li><a href="<?= BASE_URL ?>/dashboard">Dashboard</a></li>
-                </ul>
-            </div>
+
             <div class="col-md-4">
                 <h5>Contact</h5>
                 <ul class="list-unstyled">
@@ -32,4 +33,6 @@
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
+</html>

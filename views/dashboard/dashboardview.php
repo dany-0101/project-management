@@ -1,8 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
 <?php include __DIR__ . '/../../views/layouts/header.php'; ?>
 
-
+<body>
 <div class="container-fluid mt-4">
-
     <?php
     if (isset($_SESSION['success'])) {
         echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
@@ -15,7 +21,7 @@
     ?>
 
     <div class="row">
-        <!-- Main Content -->
+
         <div class="col-md-9">
             <div class="container">
                 <h1 class="mb-4">Dashboard</h1>
@@ -25,7 +31,7 @@
                     Create New Project
                 </button>
 
-        <!-- Create Project Modal -->
+
         <div class="modal fade" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -236,3 +242,5 @@
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
+</body>
+</html>

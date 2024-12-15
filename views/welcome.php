@@ -1,6 +1,4 @@
 <?php
-
-$page_title = 'Welcome to Project Management System';
 include __DIR__ . '/layouts/header.php';
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -13,40 +11,17 @@ if (session_status() == PHP_SESSION_NONE) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Management System</title>
+    <title>Project Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
-        .hero-section {
-            background: linear-gradient(135deg, #0061f2 0%, #00a6e6 100%);
-            color: white;
-            padding: 100px 0;
-        }
-        .feature-icon {
-            font-size: 2.5rem;
-            color: #0061f2;
-            margin-bottom: 1rem;
-        }
-        .auth-buttons .btn {
-            padding: 0.75rem 2rem;
-            font-size: 1.1rem;
-        }
-        .feature-card {
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-    </style>
+    <link href="/project-management/assets/css/welcome.css" rel="stylesheet">
 </head>
-<body>
 
-<!-- Hero Section -->
+<body>
 <section class="hero-section">
     <div class="container text-center">
         <h1 class="display-4 mb-4">Manage Your Projects with Ease</h1>
-        <p class="lead mb-5">A comprehensive project management solution with Kanban boards, sprint planning, and real-time collaboration</p>
+        <p class="lead mb-5">A comprehensive project management solution with Kanban boards, free to use, and real-time collaboration</p>
         <div class="auth-buttons">
             <a href="<?php echo BASE_URL; ?>/auth/register" class="btn btn-light btn-lg me-3">Get Started</a>
             <a href="<?php echo BASE_URL; ?>/auth/login" class="btn btn-outline-light btn-lg">Sign In</a>
@@ -54,7 +29,7 @@ if (session_status() == PHP_SESSION_NONE) {
     </div>
 </section>
 
-<!-- Features Section -->
+
 <section class="py-5">
     <div class="container">
         <h2 class="text-center mb-5">Key Features</h2>
@@ -76,8 +51,8 @@ if (session_status() == PHP_SESSION_NONE) {
                         <div class="feature-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
-                        <h5 class="card-title">Sprint Planning</h5>
-                        <p class="card-text">Plan and track sprints effectively. Monitor progress with burndown charts and sprint metrics.</p>
+                        <h5 class="card-title">Plan Easy</h5>
+                        <p class="card-text">Plan effectively and plan easily with your team of free paying..</p>
                     </div>
                 </div>
             </div>
@@ -96,7 +71,7 @@ if (session_status() == PHP_SESSION_NONE) {
     </div>
 </section>
 
-<!-- Statistics Section -->
+
 <section class="bg-light py-5">
     <div class="container">
         <div class="row text-center">
@@ -116,7 +91,7 @@ if (session_status() == PHP_SESSION_NONE) {
     </div>
 </section>
 
-<!-- Call to Action -->
+
 <section class="py-5">
     <div class="container text-center">
         <h2 class="mb-4">Ready to Get Started?</h2>
@@ -125,23 +100,6 @@ if (session_status() == PHP_SESSION_NONE) {
     </div>
 </section>
 
-<!-- Footer -->
-<footer class="bg-dark text-light py-4">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h5>Project Management System</h5>
-                <p>Simplify your project management workflow</p>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <a href="#" class="text-light me-3">Terms of Service</a>
-                <a href="#" class="text-light me-3">Privacy Policy</a>
-                <a href="#" class="text-light">Contact</a>
-            </div>
-        </div>
-    </div>
-</footer>
-
-
 </body>
 </html>
+<?php include __DIR__ . '/layouts/footer.php'; ?>
