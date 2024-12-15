@@ -1,18 +1,18 @@
 <?php include __DIR__ . '/../../views/layouts/header.php'; ?>
 
+
 <div class="container-fluid mt-4">
 
-    <?php if (isset($success)): ?>
-        <div class="alert alert-success" role="alert">
-            <?= $success ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (isset($error)): ?>
-        <div class="alert alert-danger" role="alert">
-            <?= $error ?>
-        </div>
-    <?php endif; ?>
+    <?php
+    if (isset($_SESSION['success'])) {
+        echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
+        unset($_SESSION['success']);
+    }
+    if (isset($_SESSION['error'])) {
+        echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['error']) . '</div>';
+        unset($_SESSION['error']);
+    }
+    ?>
 
     <div class="row">
         <!-- Main Content -->

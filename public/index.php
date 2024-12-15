@@ -13,9 +13,12 @@ require_once __DIR__ . '/../routes/Routes.php';
 require_once __DIR__ . '/../vendor/phpmailer/src/Exception.php';
 require_once __DIR__ . '/../vendor/phpmailer/src/PHPMailer.php';
 require_once __DIR__ . '/../vendor/phpmailer/src/SMTP.php';
+require_once __DIR__ . '/../controllers/ProfileController.php';
+
 use Config\Database;
 use Routes\Router;
 use Routes\Routes;
+
 
 // Initialize database connection
 $database = new Database();

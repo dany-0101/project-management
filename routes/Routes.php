@@ -3,6 +3,7 @@
 namespace Routes;
 
 use Controllers\AuthController;
+use Controllers\ProfileController;
 use Controllers\ProjectController;
 use Controllers\BoardController;
 use Controllers\StatusController;
@@ -10,6 +11,7 @@ use Controllers\TaskController;
 use Controllers\ProjectMemberController;
 use Controllers\DashboardController;
 use Middleware\AuthMiddleware;
+
 
 
 class Router {
@@ -101,6 +103,7 @@ class Routes {
         $status = new StatusController($this->db);
         $task = new TaskController($this->db);
         $projectMember = new ProjectMemberController($this->db);
+        $profile = new ProfileController($this->db);
         // Define routes
         $this->router->get('/', function() {
             require __DIR__ . '/../views/welcome.php';
@@ -199,6 +202,15 @@ class Routes {
         $this->router->post('/projects/reject-invitation', function() use ($projectMember) {
             $projectMember->rejectInvitation();
         }, AuthMiddleware::class);
+
+        $this->router->get('/profile', function() use ($profile) {
+            $profile->index();
+        }, AuthMiddleware::class);
+
+        $this->router->post('/profile/update', function() use ($profile) {
+            $profile->update();
+        }, AuthMiddleware::class);
+
         $this->router->set404(function() {
             http_response_code(404);
             echo "404 Not Found";

@@ -48,7 +48,12 @@ class AuthController {
         if ($result) {
             $_SESSION['user_id'] = $result['id'];
             $_SESSION['user_name'] = $result['name'];
-            $_SESSION['user_email'] = $result['email']; // Make sure this line is present
+            $_SESSION['user_email'] = $result['email'];
+
+            // Fetch the user's photo from the database
+            $userPhoto = $this->user->getUserPhoto($result['id']);
+            $_SESSION['user_photo'] = $userPhoto ? $userPhoto : null;
+
             $_SESSION['success'] = "Login successful. Welcome back, " . $result['name'] . "!";
             header('Location: ' . BASE_URL . '/dashboard');
             exit();
@@ -58,6 +63,8 @@ class AuthController {
             exit();
         }
     }
+
+
     public function logout() {
         session_start();
         session_destroy();
