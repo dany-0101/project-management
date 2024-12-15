@@ -211,6 +211,12 @@ class Routes {
             $profile->update();
         }, AuthMiddleware::class);
 
+        $this->router->post('/projects/remove-member', function() use ($projectMember) {
+            $projectMember->removeMember();
+        }, AuthMiddleware::class);
+        $this->router->post('/projects/cancel-invitation', function() use ($projectMember) {
+            $projectMember->cancelInvitation();
+        }, AuthMiddleware::class);
         $this->router->set404(function() {
             http_response_code(404);
             echo "404 Not Found";

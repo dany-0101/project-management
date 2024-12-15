@@ -49,10 +49,12 @@ class ProjectMember {
 
 
     public function getProjectMembers($projectId) {
-        $query = "SELECT u.id, u.name, u.email 
-              FROM users u 
-              JOIN " . $this->table . " pm ON u.id = pm.user_id 
-              WHERE pm.project_id = :project_id";
+        $query = "SELECT u.id, u.name, u.email, 
+             CASE WHEN p.user_id = u.id THEN 'creator' ELSE 'active' END as status 
+      FROM users u 
+      JOIN " . $this->table . " pm ON u.id = pm.user_id 
+      JOIN projects p ON p.id = pm.project_id
+      WHERE pm.project_id = :project_id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':project_id', $projectId, PDO::PARAM_INT);
@@ -60,6 +62,30 @@ class ProjectMember {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getProjectCreator($projectId) {
+        $query = "SELECT u.id, u.name, u.email, 'creator' as status 
+          FROM users u 
+          JOIN projects p ON u.id = p.user_id 
+          WHERE p.id = :project_id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':project_id', $projectId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function getPendingInvitations($projectId) {
+        $query = "SELECT i.id, i.email, 'pending' as status 
+          FROM " . $this->invitationsTable . " i 
+          WHERE i.project_id = :project_id AND i.status = 'pending'";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':project_id', $projectId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getInvitationByToken($token) {
         $query = "SELECT * FROM " . $this->invitationsTable . " WHERE token = :token LIMIT 1";
         $stmt = $this->conn->prepare($query);
@@ -115,10 +141,10 @@ class ProjectMember {
     }
 
     public function getInvitedProjects($userEmail) {
-        $query = "SELECT p.id, p.title, pi.token, pi.created_at 
-          FROM projects p 
-          JOIN " . $this->invitationsTable . " pi ON p.id = pi.project_id 
-          WHERE pi.email = :email AND pi.status = 'pending'";
+        $query = "SELECT p.id, p.title, pi.token, pi.created_at, pi.email 
+      FROM projects p 
+      JOIN " . $this->invitationsTable . " pi ON p.id = pi.project_id 
+      WHERE pi.email = :email AND pi.status = 'pending'";
 
         try {
             $stmt = $this->conn->prepare($query);
@@ -157,6 +183,28 @@ class ProjectMember {
             return $stmt->execute();
         } catch (PDOException $e) {
             error_log("Error removing user from project: " . $e->getMessage());
+            return false;
+        }
+    }
+    public function cancelInvitation($projectId, $memberId) {
+        $query = "DELETE FROM " . $this->invitationsTable . " 
+              WHERE project_id = :project_id AND id = :member_id AND status = 'pending'";
+
+        try {
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':project_id', $projectId, PDO::PARAM_INT);
+            $stmt->bindParam(':member_id', $memberId, PDO::PARAM_INT);
+            $result = $stmt->execute();
+
+            if (!$result) {
+                error_log("SQL error in cancelInvitation: " . implode(", ", $stmt->errorInfo()));
+            } else if ($stmt->rowCount() === 0) {
+                error_log("No rows affected in cancelInvitation for project $projectId and member $memberId");
+            }
+
+            return $result && $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error canceling invitation: " . $e->getMessage());
             return false;
         }
     }
