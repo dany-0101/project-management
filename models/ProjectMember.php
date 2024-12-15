@@ -160,4 +160,16 @@ class ProjectMember {
             return false;
         }
     }
+
+    public function rejectInvitation($invitationId) {
+        try {
+            $query = "UPDATE " . $this->invitationsTable . " SET status = 'rejected' WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $invitationId);
+            return $stmt->execute();
+        } catch (\Exception $e) {
+            error_log("Error rejecting invitation: " . $e->getMessage());
+            return false;
+        }
+    }
 }

@@ -1,12 +1,30 @@
 <div class="card mb-3">
-    <div class="card-header">
-        <h5 class="mb-0">Project Members</h5>
-    </div>
+
     <div class="card-body">
         <!-- Invite User Button -->
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#inviteUserModal">
             Invite User
         </button>
+        <!-- Project Members List -->
+
+            <?php if (isset($creator)): ?>
+                <li class="list-unstyled">
+                    <?= htmlspecialchars($creator['name']) ?>
+                    <span class="text-muted">(<?= htmlspecialchars($creator['email']) ?>)</span>
+                    <span class="badge bg-primary">Creator</span>
+                </li>
+            <?php endif; ?>
+
+            <?php if (!empty($members)): ?>
+                <?php foreach ($members as $member): ?>
+                    <?php if ($member['id'] != $creator['id']): ?>
+                        <li class="list-unstyled">
+                            <?= htmlspecialchars($member['name']) ?>
+                            <span class="text-muted">(<?= htmlspecialchars($member['email']) ?>)</span>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
 
 <!-- Invite User Modal -->
@@ -33,41 +51,10 @@
         </div>
     </div>
 </div>
-<div class="card mb-3">
-    <div class="card-header">
-        <h5 class="mb-0">Project Members</h5>
-    </div>
-
-
-
-
-
-            <!-- Project Members List -->
-            <ul class="list-group">
-                <?php if (isset($creator)): ?>
-                    <li class="list-group-item">
-                        <?= htmlspecialchars($creator['name']) ?>
-                        <span class="text-muted">(<?= htmlspecialchars($creator['email']) ?>)</span>
-                        <span class="badge bg-primary">Creator</span>
-                    </li>
-                <?php endif; ?>
-
-                <?php if (!empty($members)): ?>
-                    <?php foreach ($members as $member): ?>
-                        <?php if ($member['id'] != $creator['id']): ?>
-                            <li class="list-group-item">
-                                <?= htmlspecialchars($member['name']) ?>
-                                <span class="text-muted">(<?= htmlspecialchars($member['email']) ?>)</span>
-                            </li>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </ul>
 
             <?php if (empty($members) && !isset($creator)): ?>
                 <p>No members in this project yet.</p>
             <?php endif; ?>
-        </div>
+
     </div>
     </div>
-</div>

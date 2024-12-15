@@ -17,6 +17,14 @@ class ProjectMemberController {
     }
 
     public function inviteUser($projectId, $email) {
+        // Check if the user is trying to invite themselves
+        $currentUserEmail = $this->user->getUserEmailById($_SESSION['user_id']);
+        if ($currentUserEmail === $email) {
+            $_SESSION['error'] = "You cannot invite yourself to the project. You are already the owner.";
+            header('Location: ' . BASE_URL . '/projects/view/' . $projectId);
+            exit;
+        }
+
         // Check if the user already exists
         $user = $this->user->getUserByEmail($email);
         $userExists = ($user !== false);
@@ -73,7 +81,7 @@ class ProjectMemberController {
         error_log("Invited projects for user email $userEmail: " . print_r($invitedProjects, true));
 
         // Render the view with invited projects
-        require_once __DIR__ . '/../views/projects/invited_projects.php';
+        require_once __DIR__ . '/../views/dashboard/dashboardview.php';
     }
     public function acceptInvitation($token) {
         if (!isset($_SESSION['user_id'])) {
@@ -165,4 +173,32 @@ class ProjectMemberController {
         return $body;
     }
 
+
+    public function rejectInvitation() {
+        if (!isset($_SESSION['user_id']) || !isset($_POST['token'])) {
+            $_SESSION['error'] = "Invalid request.";
+            header('Location: ' . BASE_URL . '/projects/invited');
+            exit;
+        }
+
+        $token = $_POST['token'];
+        $invitation = $this->projectMember->getInvitationByToken($token);
+
+        if (!$invitation) {
+            $_SESSION['error'] = "Invalid or expired invitation.";
+            header('Location: ' . BASE_URL . '/projects/invited');
+            exit;
+        }
+
+        $result = $this->projectMember->rejectInvitation($invitation['id']);
+
+        if ($result) {
+            $_SESSION['success'] = "Invitation rejected successfully.";
+        } else {
+            $_SESSION['error'] = "There was an error rejecting the invitation.";
+        }
+
+        header('Location: ' . BASE_URL . '/projects/invited');
+        exit;
+    }
 }
