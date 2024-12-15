@@ -5,6 +5,7 @@ use PDO;
 use PDOException;
 class User {
     private $conn;
+    private $db;
     private $table = 'users';
 
     public $id;
@@ -14,6 +15,7 @@ class User {
 
     public function __construct($db) {
         $this->conn = $db;
+        $this->db = $db;
     }
     public function getUserByEmail($email) {
         $query = "SELECT * FROM " . $this->table . " WHERE email = :email LIMIT 1";
@@ -35,6 +37,13 @@ class User {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result ? $result['email'] : null;
     }
+    public function getUserPhoto($userId) {
+        $query = "SELECT photo FROM users WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$userId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['photo'] : null;
+    }
     public function emailExists($email) {
         $query = "SELECT id FROM " . $this->table . " WHERE email = :email LIMIT 1";
         $stmt = $this->conn->prepare($query);
@@ -43,7 +52,6 @@ class User {
 
         return $stmt->rowCount() > 0;
     }
-
     public function create() {
         $query = "INSERT INTO " . $this->table . " SET name = :name, email = :email, password = :password";
         $stmt = $this->conn->prepare($query);

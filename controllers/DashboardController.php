@@ -39,6 +39,8 @@ class DashboardController {
         // Fetch accepted projects (where the user is a member)
         $acceptedProjects = $this->projectMember->getAcceptedProjects($userId);
 
+
+
         include __DIR__ . '/../views/dashboard/dashboardview.php';
     }
 }
