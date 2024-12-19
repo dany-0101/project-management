@@ -22,7 +22,7 @@ A web-based project management tool with features like Kanban boards, team colla
 3. Install project dependencies:  composer install
 4. Create and configure the .env file:
 
-   Edit the .env file with your database and SMTP settings.
+   Edit the .env file with your database and SMTP settings:
    
     DB_HOST=localhost
     DB_USER=your_database_username
