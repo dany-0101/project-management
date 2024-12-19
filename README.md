@@ -75,3 +75,37 @@ A web-based project management tool with features like Kanban boards, team colla
    composer dump-autoload
 - Check your PHP error logs if you experience any issues during setup or runtime.
 - Ensure all required PHP extensions are enabled (pdo_mysql, mbstring, etc.).
+
+
+
+## Testing Email Functionality
+
+This project uses Mailtrap for testing email functionality in a safe, development environment. To test the email features:
+
+1. Sign up for a free account at [Mailtrap](https://mailtrap.io/).
+
+2. After logging in, go to your Mailtrap inbox.
+
+3. In the SMTP Settings section, you'll find your unique SMTP credentials.
+
+
+
+
+
+5. In the `PasswordResetController.php` file, update the SMTP settings:
+
+$mail->Host       = $_ENV['SMTP_HOST'];
+$mail->SMTPAuth   = true;
+$mail->Username   = $_ENV['SMTP_USERNAME'];
+$mail->Password   = $_ENV['SMTP_PASSWORD'];
+$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+$mail->Port       = $_ENV['SMTP_PORT'];
+
+6. in the ProjectMemberController.php, update the SMTP settings in the sendInvitationEmail method:
+$mail->Host       = $_ENV['SMTP_HOST'];
+$mail->SMTPAuth   = true;
+$mail->Username   = $_ENV['SMTP_USERNAME'];
+$mail->Password   = $_ENV['SMTP_PASSWORD'];
+$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+$mail->Port       = $_ENV['SMTP_PORT'];
+
