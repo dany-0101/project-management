@@ -59,7 +59,7 @@ class MockStatement {
     }
 
     public function fetch($fetch_style = null) {
-        // Simulate fetching data based on the query
+
         if (strpos($this->query, 'SELECT') === 0) {
             if (strpos($this->query, 'FROM users') !== false) {
                 return ['id' => 1, 'name' => 'Test User', 'email' => 'test@example.com'];
@@ -71,7 +71,7 @@ class MockStatement {
     }
 
     public function fetchAll($fetch_style = null) {
-        // Simulate fetching multiple rows
+
         return [
             ['id' => 1, 'title' => 'Project 1', 'user_id' => 1, 'board_count' => 2],
             ['id' => 2, 'title' => 'Project 2', 'user_id' => 1, 'board_count' => 1]
@@ -79,7 +79,7 @@ class MockStatement {
     }
 
     public function rowCount() {
-        return 1; // Simulate that one row was affected
+        return 1;
     }
 
     public function errorInfo() {
