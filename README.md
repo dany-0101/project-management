@@ -119,5 +119,5 @@ This project uses Mailtrap for testing email functionality in a safe, developmen
        SMTP_USERNAME=your_smtp_username
        SMTP_PASSWORD=your_smtp_password
        SMTP_PORT=your_smtp_port
-    
+
 
