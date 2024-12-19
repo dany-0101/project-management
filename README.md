@@ -19,8 +19,15 @@ A web-based project management tool with features like Kanban boards, team colla
 - Download and run the Composer-Setup.exe from https://getcomposer.org/download/
 - Follow the installation wizard
 
-3. Install project dependencies:  composer install
-4. Create and configure the .env file, Edit the .env file with your database and SMTP settings:
+3. Install project dependencies:
+   
+    composer install
+
+ If you encounter any issues or want to ensure you have the latest versions of the dependencies, you can run:
+   
+    composer update
+
+5. Create and configure the .env file, Edit the .env file with your database and SMTP settings:
 
    DB_HOST=localhost
 
@@ -78,11 +85,16 @@ A web-based project management tool with features like Kanban boards, team colla
 
 
 
-5. Set up the database:
+5. Set up the database: run the following command to install the project dependencies:
+    composer install
+
+   If you encounter any issues or want to ensure you have the latest versions of the dependencies, you can run:
+   
+    composer update
 
 
-6. Configure your web server:
-- For Apache: Create a new .conf file in /etc/apache2/sites-available/
+7. Configure your web server:
+ - For Apache: Create a new .conf file in /etc/apache2/sites-available/
 
 7. Set appropriate permissions:
    chmod -R 755 storage
@@ -90,7 +102,7 @@ A web-based project management tool with features like Kanban boards, team colla
 
 8. Restart your web server:
 - For Apache: `sudo service apache2 restart`
-- For Nginx: `sudo service nginx restart`
+
 
 9. Access the application through your browser
 
