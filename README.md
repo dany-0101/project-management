@@ -24,6 +24,18 @@ A web-based project management tool with features like Kanban boards, team colla
 
    Edit the .env file with your database and SMTP settings.
 
+    # Database Configuration
+    DB_HOST=localhost
+    DB_USER=your_database_username
+    DB_PASS=your_database_password
+    DB_NAME=project-management
+
+    # SMTP Configuration for Email
+    SMTP_HOST=smtp.example.com
+    SMTP_USERNAME=your_smtp_username
+    SMTP_PASSWORD=your_smtp_password
+    SMTP_PORT=2525
+
 5. Set up the database:
 - Create a new MySQL database
 - Import the SQL scripts from the `database` directory
