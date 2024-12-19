@@ -14,6 +14,9 @@ require_once __DIR__ . '/../vendor/phpmailer/src/Exception.php';
 require_once __DIR__ . '/../vendor/phpmailer/src/PHPMailer.php';
 require_once __DIR__ . '/../vendor/phpmailer/src/SMTP.php';
 require_once __DIR__ . '/../controllers/ProfileController.php';
+require_once __DIR__ . '/../env_loader.php';
+
+loadEnv(__DIR__ . '/../.env');
 
 use Config\Database;
 use Routes\Router;

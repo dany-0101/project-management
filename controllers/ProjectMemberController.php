@@ -4,6 +4,7 @@ namespace Controllers;
 use Models\ProjectMember;
 use Models\User;
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
 
 class ProjectMemberController {
@@ -189,12 +190,13 @@ class ProjectMemberController {
         try {
             // Server settings
             $mail->isSMTP();
-            $mail->Host       = 'smtp.mailtrap.io';
+            $mail->Host       = getenv('SMTP_HOST');
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'ca8ae61497d64e';
-            $mail->Password   = '766609d68fd7e6';
+            $mail->Username   = getenv('SMTP_USERNAME');
+            $mail->Password   = getenv('SMTP_PASSWORD');
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port       = 2525;
+            $mail->Port       = getenv('SMTP_PORT');
+
 
             // Recipients
             $mail->setFrom('from@example.com', 'Project Management System');
