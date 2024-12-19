@@ -89,6 +89,7 @@ This project uses Mailtrap for testing email functionality in a safe, developmen
 3. In the SMTP Settings section, you'll find your unique SMTP credentials.
 
 4. In the .env file update the SMTP settings:
+
        SMTP_HOST=your_smtp_host
        SMTP_USERNAME=your_smtp_username
        SMTP_PASSWORD=your_smtp_password
