@@ -14,29 +14,29 @@ A web-based project management tool with features like Kanban boards, team colla
 ### Windows Installation
 
 1. Clone the repository:
-  
+
 2. Install Composer (if not installed):
 - Download and run the Composer-Setup.exe from https://getcomposer.org/download/
 - Follow the installation wizard
 
 3. Install project dependencies:  composer install
 4. Create and configure the .env file, Edit the .env file with your database and SMTP settings:
-   
-      DB_HOST=localhost
 
-      DB_USER=your_database_username
+   DB_HOST=localhost
 
-      DB_PASS=your_database_password
+   DB_USER=your_database_username
 
-      DB_NAME=project-management
+   DB_PASS=your_database_password
 
-      SMTP_HOST=smtp.example.com
+   DB_NAME=project-management
 
-      SMTP_USERNAME=your_smtp_username
+   SMTP_HOST=smtp.example.com
 
-      SMTP_PASSWORD=your_smtp_password
+   SMTP_USERNAME=your_smtp_username
 
-      SMTP_PORT=2525
+   SMTP_PASSWORD=your_smtp_password
+
+   SMTP_PORT=2525
 
 6. Set up the database:
 - Create a new MySQL database
@@ -47,7 +47,7 @@ A web-based project management tool with features like Kanban boards, team colla
 
 7. Start your web server and access the application through your browser
 
-   
+
 
 ### Linux Installation
 
@@ -57,37 +57,37 @@ A web-based project management tool with features like Kanban boards, team colla
    curl -sS https://getcomposer.org/installer | php
    sudo mv composer.phar /usr/local/bin/composer
 3. Install project dependencies:
-   
+
 4. Create and configure the .env file, Edit the .env file with your database and SMTP settings:
-   
-      DB_HOST=localhost
 
-      DB_USER=your_database_username
+   DB_HOST=localhost
 
-      DB_PASS=your_database_password
+   DB_USER=your_database_username
 
-      DB_NAME=project-management
+   DB_PASS=your_database_password
 
-      SMTP_HOST=smtp.example.com
+   DB_NAME=project-management
 
-      SMTP_USERNAME=your_smtp_username
+   SMTP_HOST=smtp.example.com
 
-      SMTP_PASSWORD=your_smtp_password
+   SMTP_USERNAME=your_smtp_username
 
-      SMTP_PORT=2525
+   SMTP_PASSWORD=your_smtp_password
 
-  
+   SMTP_PORT=2525
+
+
 
 5. Set up the database:
 
-   
+
 6. Configure your web server:
 - For Apache: Create a new .conf file in /etc/apache2/sites-available/
 
 7. Set appropriate permissions:
-    chmod -R 755 storage
+   chmod -R 755 storage
    chmod -R 755 bootstrap/cache
-   
+
 8. Restart your web server:
 - For Apache: `sudo service apache2 restart`
 - For Nginx: `sudo service nginx restart`
@@ -97,7 +97,7 @@ A web-based project management tool with features like Kanban boards, team colla
 ## Troubleshooting
 
 - If you encounter class not found errors, run:
-   composer dump-autoload
+  composer dump-autoload
 - Check your PHP error logs if you experience any issues during setup or runtime.
 - Ensure all required PHP extensions are enabled (pdo_mysql, mbstring, etc.).
 
@@ -119,5 +119,5 @@ This project uses Mailtrap for testing email functionality in a safe, developmen
        SMTP_USERNAME=your_smtp_username
        SMTP_PASSWORD=your_smtp_password
        SMTP_PORT=your_smtp_port
-    
+
 
