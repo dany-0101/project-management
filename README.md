@@ -20,11 +20,25 @@ A web-based project management tool with features like Kanban boards, team colla
 - Follow the installation wizard
 
 3. Install project dependencies:  composer install
-4. Create and configure the .env file:
+4. Create and configure the .env file, Edit the .env file with your database and SMTP settings:
+   
+      DB_HOST=localhost
 
-   Edit the .env file with your database and SMTP settings.
+      DB_USER=your_database_username
 
-5. Set up the database:
+      DB_PASS=your_database_password
+
+      DB_NAME=project-management
+
+      SMTP_HOST=smtp.example.com
+
+      SMTP_USERNAME=your_smtp_username
+
+      SMTP_PASSWORD=your_smtp_password
+
+      SMTP_PORT=2525
+
+6. Set up the database:
 - Create a new MySQL database
 - Import the SQL scripts from the `database` directory
 
@@ -44,14 +58,25 @@ A web-based project management tool with features like Kanban boards, team colla
    sudo mv composer.phar /usr/local/bin/composer
 3. Install project dependencies:
    
-4. Install project dependencies:
+4. Create and configure the .env file, Edit the .env file with your database and SMTP settings:
+   
+      DB_HOST=localhost
 
-  Edit the .env file with your database and SMTP settings.
-  mysql -u your_username -p
-   CREATE DATABASE your_database_name;
-   exit;
-   mysql -u your_username -p your_database_name < database/schema.sql
+      DB_USER=your_database_username
 
+      DB_PASS=your_database_password
+
+      DB_NAME=project-management
+
+      SMTP_HOST=smtp.example.com
+
+      SMTP_USERNAME=your_smtp_username
+
+      SMTP_PASSWORD=your_smtp_password
+
+      SMTP_PORT=2525
+
+  
 
 5. Set up the database:
 
