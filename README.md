@@ -88,21 +88,10 @@ This project uses Mailtrap for testing email functionality in a safe, developmen
 
 3. In the SMTP Settings section, you'll find your unique SMTP credentials.
 
-4. In the `PasswordResetController.php` file, update the SMTP settings:
-
-        $mail->Host       = $_ENV['SMTP_HOST'];
-        $mail->SMTPAuth   = true;
-        $mail->Username   = $_ENV['SMTP_USERNAME'];
-        $mail->Password   = $_ENV['SMTP_PASSWORD'];
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = $_ENV['SMTP_PORT'];
-
-5. in the ProjectMemberController.php, update the SMTP settings in the sendInvitationEmail method:
-
-        $mail->Host       = $_ENV['SMTP_HOST'];
-        $mail->SMTPAuth   = true;
-        $mail->Username   = $_ENV['SMTP_USERNAME'];
-        $mail->Password   = $_ENV['SMTP_PASSWORD'];
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = $_ENV['SMTP_PORT'];
+4. In the .env file update the SMTP settings:
+       SMTP_HOST=your_smtp_host
+       SMTP_USERNAME=your_smtp_username
+       SMTP_PASSWORD=your_smtp_password
+       SMTP_PORT=your_smtp_port
+    
 
