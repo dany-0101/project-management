@@ -17,6 +17,7 @@
   "require": {
     "ext-pdo": "*",
     "ext-json": "*",
-    "phpmailer/phpmailer": "^v6.6.0"
+    "phpmailer/phpmailer": "^v6.6.0",
+    "phpunit/phpunit": "9.5"
   }
 }
