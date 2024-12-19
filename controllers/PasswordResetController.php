@@ -86,8 +86,8 @@ class PasswordResetController {
             $mail->isSMTP();
             $mail->Host       = 'smtp.mailtrap.io';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'ca8ae61497d64e';  // Replace with your Mailtrap username
-            $mail->Password   = '766609d68fd7e6';  // Replace with your Mailtrap password
+            $mail->Username   = '************';  // Replace with your Mailtrap username
+            $mail->Password   = '************';  // Replace with your Mailtrap password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 2525;
 
