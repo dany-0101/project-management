@@ -90,18 +90,19 @@ This project uses Mailtrap for testing email functionality in a safe, developmen
 
 4. In the `PasswordResetController.php` file, update the SMTP settings:
 
-$mail->Host       = $_ENV['SMTP_HOST'];
-$mail->SMTPAuth   = true;
-$mail->Username   = $_ENV['SMTP_USERNAME'];
-$mail->Password   = $_ENV['SMTP_PASSWORD'];
-$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-$mail->Port       = $_ENV['SMTP_PORT'];
+        $mail->Host       = $_ENV['SMTP_HOST'];
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $_ENV['SMTP_USERNAME'];
+        $mail->Password   = $_ENV['SMTP_PASSWORD'];
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = $_ENV['SMTP_PORT'];
 
 5. in the ProjectMemberController.php, update the SMTP settings in the sendInvitationEmail method:
-$mail->Host       = $_ENV['SMTP_HOST'];
-$mail->SMTPAuth   = true;
-$mail->Username   = $_ENV['SMTP_USERNAME'];
-$mail->Password   = $_ENV['SMTP_PASSWORD'];
-$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-$mail->Port       = $_ENV['SMTP_PORT'];
+
+        $mail->Host       = $_ENV['SMTP_HOST'];
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $_ENV['SMTP_USERNAME'];
+        $mail->Password   = $_ENV['SMTP_PASSWORD'];
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = $_ENV['SMTP_PORT'];
 
